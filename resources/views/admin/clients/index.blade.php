@@ -2,6 +2,7 @@
     <x-slot:title>Clients admin | Supermarché</x-slot:title>
 
     <div class="container py-5">
+        @include('admin.partials.navigation')
         <h1 class="fw-bold mb-4">Gestion des clients</h1>
         <div class="card shadow-sm border-0">
             <div class="card-body p-4">

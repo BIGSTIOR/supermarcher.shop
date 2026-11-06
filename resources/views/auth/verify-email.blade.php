@@ -1,6 +1,6 @@
-@extends('layouts.app')
+<x-layouts.app>
+    <x-slot:title>Vérification de votre compte | Supermarché</x-slot:title>
 
-@section('content')
 <div class="container py-5">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -32,4 +32,4 @@
         </div>
     </div>
 </div>
-@endsection
+</x-layouts.app>

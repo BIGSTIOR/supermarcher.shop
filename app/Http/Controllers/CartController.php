@@ -14,13 +14,14 @@ class CartController extends Controller
         $items = [];
         $total = 0;
 
-        foreach ($this->cart() as $productId => $quantity) {
+        foreach ($this->cart() as $productId => $cartItem) {
             $product = Produit::where('actif', true)->find($productId);
 
             if (! $product) {
                 continue;
             }
 
+            $quantity = (int) (is_array($cartItem) ? ($cartItem['quantite'] ?? 0) : $cartItem);
             $lineTotal = $product->prix * $quantity;
             $items[] = [
                 'product' => $product,

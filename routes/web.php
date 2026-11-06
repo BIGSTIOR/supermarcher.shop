@@ -11,10 +11,10 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::view('/module-4', 'modules.module4')->name('module4');
 Route::get('/produits', [ProductController::class, 'index'])->name('produits.index');
 Route::get('/produits/{produit}', [ProductController::class, 'show'])->name('produits.show');
 
@@ -62,9 +62,16 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth', 'can:access-admin'])->prefix('admin')->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('admin.dashboard');
     Route::get('/produits', [AdminController::class, 'products'])->name('admin.produits');
+    Route::post('/produits', [AdminController::class, 'storeProduct'])->name('admin.produits.store');
+    Route::put('/produits/{produit}', [AdminController::class, 'updateProduct'])->name('admin.produits.update');
     Route::get('/categories', [AdminController::class, 'categories'])->name('admin.categories');
+    Route::post('/categories', [AdminController::class, 'storeCategory'])->name('admin.categories.store');
+    Route::put('/categories/{categorie}', [AdminController::class, 'updateCategory'])->name('admin.categories.update');
     Route::get('/clients', [AdminController::class, 'customers'])->name('admin.clients');
     Route::get('/commandes', [AdminController::class, 'orders'])->name('admin.commandes');
+    Route::put('/commandes/{commande}', [AdminController::class, 'updateOrder'])->name('admin.commandes.update');
     Route::get('/paiements', [AdminController::class, 'payments'])->name('admin.paiements');
+    Route::put('/paiements/{paiement}', [AdminController::class, 'updatePayment'])->name('admin.paiements.update');
     Route::get('/livraisons', [AdminController::class, 'deliveries'])->name('admin.livraisons');
+    Route::put('/livraisons/{livraison}', [AdminController::class, 'updateDelivery'])->name('admin.livraisons.update');
 });

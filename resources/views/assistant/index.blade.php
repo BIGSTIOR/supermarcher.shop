@@ -33,33 +33,49 @@
         const chatBox = document.getElementById('chatBox');
         const chatInput = document.getElementById('chatInput');
 
+        function appendMessage(message, className) {
+            const wrapper = document.createElement('div');
+            wrapper.className = className;
+
+            const bubble = document.createElement('div');
+            bubble.className = 'd-inline-block px-3 py-2 rounded-3';
+            bubble.classList.add(className.includes('text-end') ? 'bg-dark' : 'bg-success-subtle');
+            bubble.classList.add(className.includes('text-end') ? 'text-white' : 'text-success-emphasis');
+            bubble.textContent = message;
+
+            wrapper.appendChild(bubble);
+            chatBox.appendChild(wrapper);
+        }
+
         chatForm.addEventListener('submit', async function (event) {
             event.preventDefault();
             const message = chatInput.value.trim();
             if (!message) return;
 
-            chatBox.insertAdjacentHTML('beforeend', `
-                <div class="mb-2 text-end">
-                    <div class="d-inline-block bg-dark text-white px-3 py-2 rounded-3">${message}</div>
-                </div>
-            `);
+            appendMessage(message, 'mb-2 text-end');
             chatInput.value = '';
 
-            const response = await fetch('{{ route('assistant.store') }}', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                body: JSON.stringify({ message })
-            });
+            try {
+                const response = await fetch(@json(route('assistant.store')), {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'X-CSRF-TOKEN': @json(csrf_token())
+                    },
+                    body: JSON.stringify({ message })
+                });
 
-            const data = await response.json();
-            chatBox.insertAdjacentHTML('beforeend', `
-                <div class="mb-2">
-                    <div class="d-inline-block bg-success-subtle text-success-emphasis px-3 py-2 rounded-3">${data.answer}</div>
-                </div>
-            `);
+                const data = await response.json();
+                if (!response.ok) {
+                    throw new Error(data.message || 'Une erreur est survenue. Veuillez réessayer.');
+                }
+
+                appendMessage(data.answer, 'mb-2');
+            } catch (error) {
+                appendMessage(error.message, 'mb-2');
+            }
+
             chatBox.scrollTop = chatBox.scrollHeight;
         });
     </script>

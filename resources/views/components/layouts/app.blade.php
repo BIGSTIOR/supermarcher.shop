@@ -18,6 +18,7 @@
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item"><a class="nav-link" href="{{ route('home') }}">Accueil</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('produits.index') }}">Produits</a></li>
+                    <li class="nav-item"><a class="nav-link {{ request()->routeIs('module4') ? 'active' : '' }}" href="{{ route('module4') }}">Module 4</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('assistant') }}">Assistant</a></li>
                 </ul>
                 <form class="d-flex me-3" action="{{ route('produits.index') }}" method="GET">
@@ -84,6 +85,7 @@
                     <ul class="list-unstyled">
                         <li><a href="{{ route('home') }}" class="text-white-50 text-decoration-none">Accueil</a></li>
                         <li><a href="{{ route('produits.index') }}" class="text-white-50 text-decoration-none">Produits</a></li>
+                        <li><a href="{{ route('module4') }}" class="text-white-50 text-decoration-none">Module 4 : Finalisation</a></li>
                         <li><a href="{{ route('assistant') }}" class="text-white-50 text-decoration-none">Assistant</a></li>
                     </ul>
                 </div>

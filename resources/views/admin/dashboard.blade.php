@@ -2,6 +2,7 @@
     <x-slot:title>Administration | Supermarché</x-slot:title>
 
     <div class="container py-5">
+        @include('admin.partials.navigation')
         <h1 class="fw-bold mb-4">Tableau de bord</h1>
 
         <div class="row g-4 mb-4">
